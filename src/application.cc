@@ -3,7 +3,8 @@
 #include "video.hh"
 #include "mode-base.hh" 
 
-Application::Application(Video* v) : m_video(v), m_color_grid( this ) { 
+Application::Application(Video* v) : m_video(v), m_color_grid( this, m_palette ) { 
+  m_video->set_event_callbacks( this );
 }
 
 void Application::init() { 
@@ -33,4 +34,12 @@ ModeBase *Application::current_mode() {
 
 Video* Application::video() {
   return m_video;
+}
+
+void Application::do_key_down( int k ) {
+  m_current_mode->on_key_down(k);
+}
+
+void Application::do_key_up( int k ) {
+  m_current_mode->on_key_up(k);
 }

@@ -9,6 +9,8 @@
 
 #include "font.hh"
 
+class Application;
+
 class Video {
 private:
 
@@ -23,6 +25,7 @@ private:
   void post_key_down_event( int );
   void post_key_up_event( int );
 
+  Application *m_app;
   struct timespec m_ts;
 
 public:
@@ -35,6 +38,8 @@ public:
   void tick();
 
   bool is_open();
+
+  void set_event_callbacks( Application* );
 
   void draw_text( int, int, const char* );
 

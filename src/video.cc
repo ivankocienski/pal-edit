@@ -1,5 +1,6 @@
 
 #include "video.hh"
+#include "application.hh"
 
 static Video *s_video = NULL;
 
@@ -75,12 +76,16 @@ void Video::tick() {
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
 }
 
-void Video::post_key_down_event( int ) {
-
+void Video::post_key_down_event( int k ) {
+  m_app->do_key_down(k);
 }
 
-void Video::post_key_up_event( int ) {
+void Video::post_key_up_event( int k ) {
+  m_app->do_key_up(k); 
+}
 
+void Video::set_event_callbacks( Application *a ) {
+  m_app = a;
 }
 
 void Video::draw_text( int x, int y, const char* s ) { 

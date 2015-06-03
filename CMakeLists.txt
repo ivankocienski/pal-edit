@@ -23,6 +23,7 @@ set(SRC
   src/mode-base.cc
   src/surface.cc
   src/video.cc
+  src/palette.cc
 )
 
 
