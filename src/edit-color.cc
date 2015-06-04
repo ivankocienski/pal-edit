@@ -6,6 +6,7 @@
 #include "video.hh"
 
 static char buffer[256];
+static unsigned char anim = 0;
 
 /*
  * Component
@@ -81,6 +82,8 @@ bool EditColor::user_wants_color_updated() {
 
 void EditColor::draw() {
 
+  anim++;
+  
   glBegin( GL_QUADS );
 
   glColor3f(
@@ -98,8 +101,8 @@ void EditColor::draw() {
   int  y = 202;
   for( int i = 0; i < 3; i++ ) {
     glVertex2f( 11, y );
-    glVertex2f(  8 + m_component[i].val(), y );
-    glVertex2f(  8 + m_component[i].val(), y + 36 );
+    glVertex2f( 11 + m_component[i].val(), y );
+    glVertex2f( 11 + m_component[i].val(), y + 36 );
     glVertex2f( 11, y + 36 );
     
     y += 100;
@@ -107,29 +110,35 @@ void EditColor::draw() {
 
   glEnd();
 
-  glBegin( GL_LINE_LOOP );
-  glColor3f( 1, 0.2, 0.2 );
-  glVertex2f( 10, 200 );
-  glVertex2f( 265, 200 );
-  glVertex2f( 265, 240 );
-  glVertex2f( 10, 240 );
-  glEnd();
+  if( (m_cur_comp == 0 && (anim >> 3) & 1) || m_cur_comp != 0 ) {
+    glBegin( GL_LINE_LOOP );
+    glColor3f( 1, 0.2, 0.2 );
+    glVertex2f( 10, 200 );
+    glVertex2f( 265, 200 );
+    glVertex2f( 265, 240 );
+    glVertex2f( 10, 240 );
+    glEnd();
+  }
 
-  glBegin( GL_LINE_LOOP );
-  glColor3f( 0.2, 1, 0.2 );
-  glVertex2f( 10, 300 );
-  glVertex2f( 265, 300 );
-  glVertex2f( 265, 340 );
-  glVertex2f( 10, 340 );
-  glEnd();
+  if( (m_cur_comp == 1 && (anim >> 3) & 1) || m_cur_comp != 1 ) {
+    glBegin( GL_LINE_LOOP );
+    glColor3f( 0.2, 1, 0.2 );
+    glVertex2f( 10, 300 );
+    glVertex2f( 265, 300 );
+    glVertex2f( 265, 340 );
+    glVertex2f( 10, 340 );
+    glEnd();
+  }
 
-  glBegin( GL_LINE_LOOP );
-  glColor3f( 0.2, 0.2, 1 );
-  glVertex2f( 10, 400 );
-  glVertex2f( 265, 400 );
-  glVertex2f( 265, 440 );
-  glVertex2f( 10, 440 );
-  glEnd();
+  if( (m_cur_comp == 2 && (anim >> 3) & 1) || m_cur_comp != 2 ) {
+    glBegin( GL_LINE_LOOP );
+    glColor3f( 0.2, 0.2, 1 );
+    glVertex2f( 10, 400 );
+    glVertex2f( 265, 400 );
+    glVertex2f( 265, 440 );
+    glVertex2f( 10, 440 );
+    glEnd();
+  }
 
   glColor3f( 1, 1, 1 );
 
@@ -140,14 +149,14 @@ void EditColor::draw() {
   snprintf( buffer, 256, "index %d", m_index );
   m_video->draw_text( 400, 25, buffer);
 
-  snprintf( buffer, 256, "  red %03d", m_component[0].val() );
-  m_video->draw_text( 400, 35, buffer);
+  snprintf( buffer, 256, "%03d", m_component[0].val() );
+  m_video->draw_text( 10, 190, buffer);
 
-  snprintf( buffer, 256, "green %03d", m_component[1].val() );
-  m_video->draw_text( 400, 45, buffer);
+  snprintf( buffer, 256, "%03d", m_component[1].val() );
+  m_video->draw_text( 10, 290, buffer);
 
-  snprintf( buffer, 256, " blue %03d", m_component[2].val() );
-  m_video->draw_text( 400, 55, buffer);
+  snprintf( buffer, 256, "%03d", m_component[2].val() );
+  m_video->draw_text( 10, 390, buffer);
 
   snprintf( buffer, 256, "  hex 0x%02x%02x%02x",
       m_component[0].val(),
@@ -157,8 +166,16 @@ void EditColor::draw() {
 
 
   m_video->draw_text( 650, 10, "KEY HELP" );
-  m_video->draw_text( 650, 25, "E; save, return" );
-  m_video->draw_text( 650, 35, "ESC; cancel" );
+  m_video->draw_text( 650, 25, "I   0% component" );
+  m_video->draw_text( 650, 35, "O  50% component" );
+  m_video->draw_text( 650, 45, "P 100% component" );
+  m_video->draw_text( 650, 55, "E save, return" );
+
+  m_video->draw_text( 650, 70, "  PGUP + 25" );
+  m_video->draw_text( 650, 80, "PGDOWN -25" );
+
+  m_video->draw_text( 650,  95, "  E save, return" );
+  m_video->draw_text( 650, 105, "ESC cancel" );
 
   glDisable( GL_TEXTURE_2D );
 }
@@ -191,8 +208,21 @@ void EditColor::on_key_down( int k ) {
       m_component[m_cur_comp].dec(25);
       break;
 
+    case GLFW_KEY_I:
+      m_component[m_cur_comp].set(0);
+      break;
+
+    case GLFW_KEY_O:
+      m_component[m_cur_comp].set(127);
+      break;
+
+    case GLFW_KEY_P:
+      m_component[m_cur_comp].set(255);
+      break;
+
     case GLFW_KEY_E:
       m_update = true;
+
 
     case GLFW_KEY_ESCAPE:
       m_application->set_mode( Application::AM_COLOR_GRID );

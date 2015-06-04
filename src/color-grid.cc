@@ -12,7 +12,8 @@ using namespace std;
 #include "application.hh"
 #include "video.hh"
 
-unsigned char anim = 0;
+static unsigned char anim = 0;
+static char buffer[256];
 static const char *hex_chars = "0123456789ABCDEF";
 
 ColorGrid::ColorGrid( Application *a, Palette &p ) : ModeBase(a), m_palette(p) {
@@ -35,8 +36,6 @@ void ColorGrid::activate() {
     }
   }
 }
-
-static char buffer[256];
 
 void ColorGrid::normalize_range( int &from, int &to ) {
 
@@ -151,6 +150,11 @@ void ColorGrid::draw() {
   snprintf( buffer, 256, " blue %03d", m_palette.at(m_cur_pos).blue );
   m_video->draw_text( 400, 55, buffer);
 
+  if( m_mark_pos != -1 ) {
+    snprintf( buffer, 256, "mark at %d", m_mark_pos );
+    m_video->draw_text( 400, 100, buffer); 
+  }
+
   snprintf( buffer, 256, "  hex 0x%02x%02x%02x",
       m_palette.at(m_cur_pos).red,
       m_palette.at(m_cur_pos).green,
@@ -159,13 +163,23 @@ void ColorGrid::draw() {
 
 
   m_video->draw_text( 620, 10, "KEY HELP" );
-  m_video->draw_text( 620, 25, "E edit" );
-  m_video->draw_text( 620, 35, "Z black" );
-  m_video->draw_text( 620, 45, "X white" );
-  m_video->draw_text( 620, 55, "C copy" );
-  m_video->draw_text( 620, 65, "V paste" );
-  m_video->draw_text( 620, 75, "M mark" );
-  m_video->draw_text( 620, 85, "G gradient" );
+
+  if( m_mark_pos == -1 ) {
+    m_video->draw_text( 620, 25, "E edit" );
+    m_video->draw_text( 620, 35, "Z black" );
+    m_video->draw_text( 620, 45, "X white" );
+    m_video->draw_text( 620, 55, "C copy" );
+    m_video->draw_text( 620, 65, "V paste" );
+    m_video->draw_text( 620, 75, "M mark" );
+
+  } else {
+    m_video->draw_text( 620, 25, "M mark release" );
+    m_video->draw_text( 620, 35, "Z black" );
+    m_video->draw_text( 620, 45, "X white" );
+    m_video->draw_text( 620, 55, "V paste" );
+    m_video->draw_text( 620, 65, "G gradient" );
+
+  }
 
   glDisable( GL_TEXTURE_2D );
 }
