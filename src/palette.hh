@@ -26,6 +26,7 @@ public:
   void reset();
 
   void set_color( int, const T_COLOR& );
+  void set_color( int, int, int, int );
 
   const T_COLOR & at( int ) const;
 

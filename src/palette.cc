@@ -29,3 +29,9 @@ void Palette::set_color( int i, const Palette::T_COLOR &c ) {
   m_colors[i].green = c.green;
   m_colors[i].blue  = c.blue;
 }
+
+void Palette::set_color( int i, int r, int g, int b ) {
+  m_colors[i].red   = r;
+  m_colors[i].green = g;
+  m_colors[i].blue  = b;
+}

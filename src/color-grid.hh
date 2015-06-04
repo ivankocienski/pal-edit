@@ -11,9 +11,13 @@ private:
 
   Palette & m_palette;
   EditColor *m_color_edit;
+  Palette::T_COLOR m_copy_color;
 
   int m_cur_pos;
+  int m_mark_pos;
   int m_edit_color;
+
+  void normalize_range( int&, int& );
   
 public:
 
