@@ -24,3 +24,8 @@ const Palette::T_COLOR & Palette::at( int i ) const {
   return m_colors[i];
 }
 
+void Palette::set_color( int i, const Palette::T_COLOR &c ) {
+  m_colors[i].red   = c.red;
+  m_colors[i].green = c.green;
+  m_colors[i].blue  = c.blue;
+}

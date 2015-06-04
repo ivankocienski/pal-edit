@@ -1,10 +1,14 @@
 
+#include <iostream>
+using namespace std;
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
 
 #include "color-grid.hh"
+#include "edit-color.hh"
 #include "application.hh"
 #include "video.hh"
 
@@ -14,9 +18,21 @@ static const char *hex_chars = "0123456789ABCDEF";
 ColorGrid::ColorGrid( Application *a, Palette &p ) : ModeBase(a), m_palette(p) {
 
   m_cur_pos = 0;
+  m_edit_color = -1;
+  m_color_edit = (EditColor *)m_application->get_mode( Application::AM_EDIT_COLOR );
 }
 
-void ColorGrid::init() {
+void ColorGrid::activate() {
+
+  ModeBase::activate();
+
+  if( m_edit_color != -1 ) {
+    if( m_color_edit->user_wants_color_updated() ) {
+      cout << "updating color" << endl;
+      m_palette.set_color( m_cur_pos, m_color_edit->color() );
+      m_edit_color = -1;
+    }
+  }
 }
 
 static char buffer[256];
@@ -39,10 +55,7 @@ void ColorGrid::draw() {
       float dx = 30 + (x * 20);
       float dy = 20 + (y * 20);
 
-      glColor3f( 
-          float(m_palette.at(i).red)   / 255.0,
-          float(m_palette.at(i).green) / 255.0,
-          float(m_palette.at(i).blue)  / 255.0);
+      m_palette.at(i).set_gl();
 
       glVertex2f( dx +  1, dy +  1);
       glVertex2f( dx + 18, dy +  1);
@@ -135,6 +148,12 @@ void ColorGrid::on_key_down( int k ) {
     case GLFW_KEY_RIGHT:
       m_cur_pos++;
       if( m_cur_pos > 255 ) m_cur_pos = 0;
+      break;
+
+    case GLFW_KEY_E:
+      m_edit_color = m_cur_pos;
+      m_color_edit->set_color( m_cur_pos, m_palette.at( m_cur_pos ));
+      m_application->set_mode( Application::AM_EDIT_COLOR );
       break;
   }
 }

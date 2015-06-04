@@ -24,6 +24,7 @@ set(SRC
   src/surface.cc
   src/video.cc
   src/palette.cc
+  src/edit-color.cc
 )
 
 

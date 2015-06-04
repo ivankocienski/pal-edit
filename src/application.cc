@@ -1,10 +1,18 @@
 
+#include <stdio.h>
+
 #include "application.hh"
 #include "video.hh"
 #include "mode-base.hh" 
 
-Application::Application(Video* v) : m_video(v), m_color_grid( this, m_palette ) { 
+Application::Application(Video* v) : 
+  m_video(v), 
+  m_color_grid( this, m_palette ),
+  m_edit_color( this ) 
+{ 
   m_video->set_event_callbacks( this );
+  m_current_mode = NULL;
+  m_last_mode = NULL;
 }
 
 void Application::init() { 
@@ -15,21 +23,34 @@ void Application::cleanup() { }
 
 void Application::set_mode( int m ) {
 
-  switch(m) {
-    case AM_COLOR_GRID:
-      m_current_mode = (ModeBase *)&m_color_grid;
-      break;
+  m_last_mode = m_current_mode;
+  m_current_mode = get_mode(m);
 
-    default:
-      throw "Application::set_mode(): mode identifier not recognised";
-      break;
-  } 
+  if( !m_current_mode )
+    throw "Application::set_mode(): mode identifier not recognised";
 
   m_current_mode->activate();
 }
 
 ModeBase *Application::current_mode() {
   return m_current_mode;
+}
+
+ModeBase *Application::last_mode() {
+  return m_last_mode;
+}
+
+ModeBase *Application::get_mode( int m ) {
+  switch(m) {
+    case AM_COLOR_GRID: 
+      return (ModeBase *)&m_color_grid;
+    case AM_EDIT_COLOR: 
+      return (ModeBase *)&m_edit_color;
+    default:
+      break;
+  }
+
+  return NULL;
 }
 
 Video* Application::video() {
