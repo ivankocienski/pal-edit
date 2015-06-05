@@ -25,6 +25,8 @@ set(SRC
   src/video.cc
   src/palette.cc
   src/edit-color.cc
+  src/new-grid-mode.cc
+  src/global.cc
 )
 
 

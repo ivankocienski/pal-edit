@@ -4,9 +4,8 @@
 #include "edit-color.hh"
 #include "application.hh"
 #include "video.hh"
+#include "global.hh"
 
-static char buffer[256];
-static unsigned char anim = 0;
 
 /*
  * Component
@@ -82,8 +81,6 @@ bool EditColor::user_wants_color_updated() {
 
 void EditColor::draw() {
 
-  anim++;
-  
   glBegin( GL_QUADS );
 
   glColor3f(
@@ -146,19 +143,19 @@ void EditColor::draw() {
 
   m_video->draw_text( 400, 10, "COLOR EDIT" );
 
-  snprintf( buffer, 256, "index %d", m_index );
+  snprintf( buffer, BUFFER_LEN, "index %d", m_index );
   m_video->draw_text( 400, 25, buffer);
 
-  snprintf( buffer, 256, "%03d", m_component[0].val() );
+  snprintf( buffer, BUFFER_LEN, "%03d", m_component[0].val() );
   m_video->draw_text( 10, 190, buffer);
 
-  snprintf( buffer, 256, "%03d", m_component[1].val() );
+  snprintf( buffer, BUFFER_LEN, "%03d", m_component[1].val() );
   m_video->draw_text( 10, 290, buffer);
 
-  snprintf( buffer, 256, "%03d", m_component[2].val() );
+  snprintf( buffer, BUFFER_LEN, "%03d", m_component[2].val() );
   m_video->draw_text( 10, 390, buffer);
 
-  snprintf( buffer, 256, "  hex 0x%02x%02x%02x",
+  snprintf( buffer, BUFFER_LEN, "  hex 0x%02x%02x%02x",
       m_component[0].val(),
       m_component[1].val(),
       m_component[2].val());

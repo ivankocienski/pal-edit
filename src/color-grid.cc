@@ -11,9 +11,8 @@ using namespace std;
 #include "edit-color.hh"
 #include "application.hh"
 #include "video.hh"
+#include "global.hh"
 
-static unsigned char anim = 0;
-static char buffer[256];
 static const char *hex_chars = "0123456789ABCDEF";
 
 ColorGrid::ColorGrid( Application *a, Palette &p ) : ModeBase(a), m_palette(p) {
@@ -49,8 +48,6 @@ void ColorGrid::normalize_range( int &from, int &to ) {
 }
 
 void ColorGrid::draw() {
-
-  anim++;
 
   glColor3f( 1, 1, 1 );
 
@@ -138,24 +135,24 @@ void ColorGrid::draw() {
 
   m_video->draw_text( 400, 10, "COLOR INFO" );
 
-  snprintf( buffer, 256, "index %d", m_cur_pos );
+  snprintf( buffer, BUFFER_LEN, "index %d", m_cur_pos );
   m_video->draw_text( 400, 25, buffer);
 
-  snprintf( buffer, 256, "  red %03d", m_palette.at(m_cur_pos).red );
+  snprintf( buffer, BUFFER_LEN, "  red %03d", m_palette.at(m_cur_pos).red );
   m_video->draw_text( 400, 35, buffer);
 
-  snprintf( buffer, 256, "green %03d", m_palette.at(m_cur_pos).green );
+  snprintf( buffer, BUFFER_LEN, "green %03d", m_palette.at(m_cur_pos).green );
   m_video->draw_text( 400, 45, buffer);
 
-  snprintf( buffer, 256, " blue %03d", m_palette.at(m_cur_pos).blue );
+  snprintf( buffer, BUFFER_LEN, " blue %03d", m_palette.at(m_cur_pos).blue );
   m_video->draw_text( 400, 55, buffer);
 
   if( m_mark_pos != -1 ) {
-    snprintf( buffer, 256, "mark at %d", m_mark_pos );
+    snprintf( buffer, BUFFER_LEN, "mark at %d", m_mark_pos );
     m_video->draw_text( 400, 100, buffer); 
   }
 
-  snprintf( buffer, 256, "  hex 0x%02x%02x%02x",
+  snprintf( buffer, BUFFER_LEN, "  hex 0x%02x%02x%02x",
       m_palette.at(m_cur_pos).red,
       m_palette.at(m_cur_pos).green,
       m_palette.at(m_cur_pos).blue);
@@ -180,6 +177,8 @@ void ColorGrid::draw() {
     m_video->draw_text( 620, 65, "G gradient" );
 
   }
+
+  m_video->draw_text( 10, 580, "F1 new grid" );
 
   glDisable( GL_TEXTURE_2D );
 }
@@ -274,6 +273,10 @@ void ColorGrid::on_key_down( int k ) {
         m_mark_pos = m_cur_pos;
       else
         m_mark_pos = -1;
+      break;
+
+    case GLFW_KEY_F1:
+      m_application->set_mode( Application::AM_NEW_GRID );
       break;
 
 

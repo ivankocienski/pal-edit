@@ -27,6 +27,7 @@ public:
 
   void set_color( int, const T_COLOR& );
   void set_color( int, int, int, int );
+  void load_from_array( const unsigned char*, int );
 
   const T_COLOR & at( int ) const;
 

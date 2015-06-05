@@ -3,12 +3,15 @@
 
 #include "video.hh"
 #include "application.hh"
+#include "global.hh"
 
 using namespace std;
 
 int main(int argc, char ** argv ) {
 
   int status = 0;
+
+  global_init();
 
   try {
 
@@ -26,6 +29,8 @@ int main(int argc, char ** argv ) {
       app.current_mode()->draw();
 
       vid.tick();
+
+      anim++;
     }
 
   } catch (const char *msg) {

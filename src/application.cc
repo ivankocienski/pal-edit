@@ -8,7 +8,8 @@
 Application::Application(Video* v) : 
   m_video(v), 
   m_color_grid( this, m_palette ),
-  m_edit_color( this ) 
+  m_edit_color( this ),
+  m_new_grid( this )
 { 
   m_video->set_event_callbacks( this );
   m_current_mode = NULL;
@@ -20,6 +21,10 @@ void Application::init() {
 }
 
 void Application::cleanup() { }
+
+void Application::set_palette( const Palette &p ) {
+  m_palette = p;
+}
 
 void Application::set_mode( int m ) {
 
@@ -46,6 +51,8 @@ ModeBase *Application::get_mode( int m ) {
       return (ModeBase *)&m_color_grid;
     case AM_EDIT_COLOR: 
       return (ModeBase *)&m_edit_color;
+    case AM_NEW_GRID: 
+      return (ModeBase *)&m_new_grid;
     default:
       break;
   }

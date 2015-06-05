@@ -6,6 +6,7 @@ class Video;
 #include "palette.hh"
 #include "color-grid.hh"
 #include "edit-color.hh"
+#include "new-grid-mode.hh"
 
 class Application {
 private:
@@ -19,19 +20,24 @@ private:
   ColorGrid m_color_grid;
   EditColor m_edit_color;
 
+  NewGridMode m_new_grid;
+
   Palette m_palette;
 
 public:
 
   enum { // application mode
     AM_COLOR_GRID,
-    AM_EDIT_COLOR
+    AM_EDIT_COLOR,
+    AM_NEW_GRID
   };
 
   Application( Video* );
 
   void init();
   void cleanup();
+
+  void set_palette( const Palette& );
 
   void set_mode( int );
 
