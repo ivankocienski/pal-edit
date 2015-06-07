@@ -9,7 +9,8 @@ Application::Application(Video* v) :
   m_video(v), 
   m_color_grid( this, m_palette ),
   m_edit_color( this ),
-  m_new_grid( this )
+  m_new_grid( this ),
+  m_open_file( this )
 { 
   m_video->set_event_callbacks( this );
   m_current_mode = NULL;
@@ -53,6 +54,8 @@ ModeBase *Application::get_mode( int m ) {
       return (ModeBase *)&m_edit_color;
     case AM_NEW_GRID: 
       return (ModeBase *)&m_new_grid;
+    case AM_OPEN_FILE:
+      return (ModeBase *)&m_open_file;
     default:
       break;
   }

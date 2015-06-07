@@ -28,6 +28,8 @@ public:
   void set_color( int, const T_COLOR& );
   void set_color( int, int, int, int );
   void load_from_array( const unsigned char*, int );
+  bool load_from_file( const char* );
+  bool save_to_file( const char* );
 
   const T_COLOR & at( int ) const;
 

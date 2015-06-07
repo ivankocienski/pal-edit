@@ -7,6 +7,7 @@ class Video;
 #include "color-grid.hh"
 #include "edit-color.hh"
 #include "new-grid-mode.hh"
+#include "open-file-mode.hh"
 
 class Application {
 private:
@@ -21,6 +22,7 @@ private:
   EditColor m_edit_color;
 
   NewGridMode m_new_grid;
+  OpenFileMode m_open_file;
 
   Palette m_palette;
 
@@ -29,7 +31,8 @@ public:
   enum { // application mode
     AM_COLOR_GRID,
     AM_EDIT_COLOR,
-    AM_NEW_GRID
+    AM_NEW_GRID,
+    AM_OPEN_FILE
   };
 
   Application( Video* );

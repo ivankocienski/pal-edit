@@ -14,6 +14,9 @@ pkg_search_module(GLFW REQUIRED glfw3)
 find_package (OpenGL REQUIRED)
 find_package (PNG REQUIRED)
 
+set(Boost_USE_SYSTEM ON)
+find_package (Boost COMPONENTS filesystem system regex REQUIRED)
+
 # source files. sure, there's a better way of doing this
 set(SRC
   src/application.cc
@@ -27,12 +30,14 @@ set(SRC
   src/edit-color.cc
   src/new-grid-mode.cc
   src/global.cc
+  src/open-file-mode.cc
+  src/directory.cc
 )
 
 
 link_libraries(
   #${PTHREAD_LIBRARY}
-  #${Boost_LIBRARIES}
+  ${Boost_LIBRARIES}
   ${OPENGL_LIBRARIES}
   ${GLFW_LIBRARIES}
   ${PNG_LIBRARY}

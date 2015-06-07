@@ -178,7 +178,7 @@ void ColorGrid::draw() {
 
   }
 
-  m_video->draw_text( 10, 580, "F1 new grid" );
+  m_video->draw_text( 10, 580, "F1 new grid   F2 open grid file" );
 
   glDisable( GL_TEXTURE_2D );
 }
@@ -279,6 +279,13 @@ void ColorGrid::on_key_down( int k ) {
       m_application->set_mode( Application::AM_NEW_GRID );
       break;
 
+    case GLFW_KEY_F2:
+      m_application->set_mode( Application::AM_OPEN_FILE );
+      break;
+
+    case GLFW_KEY_F3:
+      m_palette.save_to_file( "output.pal" );
+      break;
 
     case GLFW_KEY_E:
       if( m_mark_pos == -1 ) {
