@@ -82,7 +82,7 @@ bool Palette::load_from_file( const char *path ) {
   return true;
 }
 
-bool Palette::save_to_file( const char *path ) {
+bool Palette::save_to_file( const char *path ) const {
 
   ofstream file;
   file.open(path, fstream::out | fstream::trunc );

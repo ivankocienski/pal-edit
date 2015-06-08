@@ -20,6 +20,7 @@ public:
  
   virtual void on_key_down(int);
   virtual void on_key_up(int);
+  virtual void on_inkey(unsigned int);
 
   virtual void move();
   virtual void draw();

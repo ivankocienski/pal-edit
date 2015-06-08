@@ -32,6 +32,7 @@ set(SRC
   src/global.cc
   src/open-file-mode.cc
   src/directory.cc
+  src/save-file-mode.cc
 )
 
 

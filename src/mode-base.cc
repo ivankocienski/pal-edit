@@ -22,6 +22,9 @@ void ModeBase::activate() {
 void ModeBase::on_key_down(int) { 
 }
 
+void ModeBase::on_inkey(unsigned int) { 
+}
+
 void ModeBase::on_key_up(int) { 
 }
 

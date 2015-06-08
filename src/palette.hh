@@ -29,7 +29,7 @@ public:
   void set_color( int, int, int, int );
   void load_from_array( const unsigned char*, int );
   bool load_from_file( const char* );
-  bool save_to_file( const char* );
+  bool save_to_file( const char* ) const;
 
   const T_COLOR & at( int ) const;
 

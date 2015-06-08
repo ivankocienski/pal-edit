@@ -10,7 +10,8 @@ Application::Application(Video* v) :
   m_color_grid( this, m_palette ),
   m_edit_color( this ),
   m_new_grid( this ),
-  m_open_file( this )
+  m_open_file( this ),
+  m_save_file( this )
 { 
   m_video->set_event_callbacks( this );
   m_current_mode = NULL;
@@ -25,6 +26,9 @@ void Application::cleanup() { }
 
 void Application::set_palette( const Palette &p ) {
   m_palette = p;
+}
+const Palette& Application::palette() const {
+  return m_palette;
 }
 
 void Application::set_mode( int m ) {
@@ -56,6 +60,8 @@ ModeBase *Application::get_mode( int m ) {
       return (ModeBase *)&m_new_grid;
     case AM_OPEN_FILE:
       return (ModeBase *)&m_open_file;
+    case AM_SAVE_FILE:
+      return (ModeBase *)&m_save_file;
     default:
       break;
   }
@@ -73,4 +79,8 @@ void Application::do_key_down( int k ) {
 
 void Application::do_key_up( int k ) {
   m_current_mode->on_key_up(k);
+}
+
+void Application::do_inkey( unsigned int k ) {
+  m_current_mode->on_inkey(k);
 }

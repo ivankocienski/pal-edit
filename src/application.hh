@@ -8,6 +8,7 @@ class Video;
 #include "edit-color.hh"
 #include "new-grid-mode.hh"
 #include "open-file-mode.hh"
+#include "save-file-mode.hh"
 
 class Application {
 private:
@@ -23,6 +24,7 @@ private:
 
   NewGridMode m_new_grid;
   OpenFileMode m_open_file;
+  SaveFileMode m_save_file;
 
   Palette m_palette;
 
@@ -32,7 +34,8 @@ public:
     AM_COLOR_GRID,
     AM_EDIT_COLOR,
     AM_NEW_GRID,
-    AM_OPEN_FILE
+    AM_OPEN_FILE,
+    AM_SAVE_FILE
   };
 
   Application( Video* );
@@ -41,11 +44,13 @@ public:
   void cleanup();
 
   void set_palette( const Palette& );
+  const Palette& palette() const;
 
   void set_mode( int );
 
   void do_key_down( int );
   void do_key_up( int );
+  void do_inkey( unsigned int);
   
   ModeBase *current_mode();
   ModeBase *last_mode();
