@@ -9,6 +9,7 @@ class Video;
 #include "new-grid-mode.hh"
 #include "open-file-mode.hh"
 #include "save-file-mode.hh"
+#include "confirm-quit.hh"
 
 class Application {
 private:
@@ -25,6 +26,7 @@ private:
   NewGridMode m_new_grid;
   OpenFileMode m_open_file;
   SaveFileMode m_save_file;
+  ConfirmQuit m_confirm_quit;
 
   Palette m_palette;
 
@@ -35,7 +37,8 @@ public:
     AM_EDIT_COLOR,
     AM_NEW_GRID,
     AM_OPEN_FILE,
-    AM_SAVE_FILE
+    AM_SAVE_FILE,
+    AM_CONFIRM_QUIT
   };
 
   Application( Video* );

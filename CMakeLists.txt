@@ -33,6 +33,7 @@ set(SRC
   src/open-file-mode.cc
   src/directory.cc
   src/save-file-mode.cc
+  src/confirm-quit.cc
 )
 
 

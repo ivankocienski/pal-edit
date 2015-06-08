@@ -11,7 +11,8 @@ Application::Application(Video* v) :
   m_edit_color( this ),
   m_new_grid( this ),
   m_open_file( this ),
-  m_save_file( this )
+  m_save_file( this ),
+  m_confirm_quit( this )
 { 
   m_video->set_event_callbacks( this );
   m_current_mode = NULL;
@@ -62,6 +63,9 @@ ModeBase *Application::get_mode( int m ) {
       return (ModeBase *)&m_open_file;
     case AM_SAVE_FILE:
       return (ModeBase *)&m_save_file;
+    case AM_CONFIRM_QUIT:
+      return (ModeBase *)&m_confirm_quit;
+      
     default:
       break;
   }

@@ -41,6 +41,7 @@ public:
   bool open();
   void tick();
   bool is_open();
+  void stop();
 
   void set_inkey_capture(bool);
 

@@ -74,6 +74,10 @@ bool Video::is_open() {
   return !glfwWindowShouldClose(m_main_window);
 }
 
+void Video::stop() {
+  glfwSetWindowShouldClose( m_main_window, GL_TRUE );
+}
+
 void Video::tick() {
 
   glfwSwapBuffers(m_main_window);
